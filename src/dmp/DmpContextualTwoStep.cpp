@@ -146,7 +146,8 @@ void  DmpContextualTwoStep::train(const vector<Trajectory>& trajectories, const 
   
   MatrixXd cur_task_parameters;
   VectorXd cur_model_parameters;// todo Remove redundant tmp variable
-  vector<MatrixXd> all_model_parameters(n_demonstrations); 
+  //vector<MatrixXd> all_model_parameters(n_demonstrations); 
+  vector<MatrixXd> all_model_parameters(dim_orig()); 
   for (unsigned int i_demo=0; i_demo<n_demonstrations; i_demo++)
   {
     
