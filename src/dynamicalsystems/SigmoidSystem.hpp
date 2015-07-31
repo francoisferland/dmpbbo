@@ -60,6 +60,8 @@ public:
 
 	std::string toString(void) const;
 
+  void set_max_rate(double v) { max_rate_ = v; }
+
 private:
   static Eigen::VectorXd computeKs(const Eigen::VectorXd& N_0s, double r, double inflection_point_time_time);
   

@@ -320,6 +320,8 @@ public:
     }
   }
   
+  DynamicalSystem* get_gating_system() { return gating_system_; }
+
 protected:
 
   /** Get a pointer to the function approximator for a certain dimension.
