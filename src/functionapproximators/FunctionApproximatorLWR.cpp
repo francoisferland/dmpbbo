@@ -195,11 +195,13 @@ void FunctionApproximatorLWR::train(const MatrixXd& inputs, const MatrixXd& targ
       MatrixXd m1 = X_sub.transpose()*W_sub*X_sub;
       MatrixXd m2 = X_sub.transpose()*W_sub*targets_sub;
   
-      if (m1.determinant() != 0.0) {
+      if (fabs(m1.determinant()) > 1e-9) {
         VectorXd cur_beta_sub = m1.inverse() * m2;
         beta.row(bb) = cur_beta_sub;
       } else {
-        // Got a singular matrix, fill with zeros for now.
+        // Got a singular matrix, fill with zeroes for now.
+        // This helps stopping the propagation of INFs and NaNs.
+        // TODO: Figure out why, and if zeroes are a correct substitute. 
         beta.row(bb) = VectorXd::Zero(beta.row(bb).size());
       }
       
