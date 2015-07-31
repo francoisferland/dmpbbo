@@ -192,13 +192,22 @@ void FunctionApproximatorLWR::train(const MatrixXd& inputs, const MatrixXd& targ
       
       // Do the same inversion as above, but with only a small subset of the data
       MatrixXd W_sub = W_vec_sub.asDiagonal();
-      VectorXd cur_beta_sub = (X_sub.transpose()*W_sub*X_sub).inverse()*X_sub.transpose()*W_sub*targets_sub;
-   
+      MatrixXd m1 = X_sub.transpose()*W_sub*X_sub;
+      MatrixXd m2 = X_sub.transpose()*W_sub*targets_sub;
+  
+      if (m1.determinant() != 0.0) {
+        VectorXd cur_beta_sub = m1.inverse() * m2;
+        beta.row(bb) = cur_beta_sub;
+      } else {
+        // Got a singular matrix, fill with zeros for now.
+        beta.row(bb) = VectorXd::Zero(beta.row(bb).size());
+      }
+      
       //cout << "  n_samples=" << n_samples << endl;
       //cout << "  n_samples_sub=" << n_samples_sub << endl;
       //cout << cur_beta.transpose() << endl;
       //cout << cur_beta_sub.transpose() << endl;
-      beta.row(bb)   =    cur_beta_sub;
+
     }
   }
   MatrixXd offsets = beta.rightCols(1);
