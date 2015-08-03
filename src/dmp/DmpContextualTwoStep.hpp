@@ -84,9 +84,19 @@ private:
    * \param[in] ar Boost archive
    * \param[in] version Version of the class
    * See http://www.boost.org/doc/libs/1_55_0/libs/serialization/doc/tutorial.html#simplecase
+   *
+   * Note: implementation needed here, otherwise it is not properly instanciated
+   * for xml_[i|o]archive.
    */
   template<class Archive>
-  void serialize(Archive & ar, const unsigned int version);
+  void serialize(Archive & ar, const unsigned int version)
+  {
+    // serialize base class information
+    ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(DmpContextual);
+  
+    ar & BOOST_SERIALIZATION_NVP(policy_parameter_function_);
+
+  }
 
 };
 
