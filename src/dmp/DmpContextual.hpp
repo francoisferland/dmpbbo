@@ -190,6 +190,13 @@ private:
     
     // Do not archive task_parameters_; these will change constantly, 
     // depending on the task being solved.
+    //
+    // While task parameters change constantly, we still need to serialize them
+    // to recover their size when they are de-serialized.
+    ar & BOOST_SERIALIZATION_NVP(task_parameters_);
+
+    ar & BOOST_SERIALIZATION_NVP(policy_parameter_function_goal_);
+    ar & BOOST_SERIALIZATION_NVP(policy_parameter_function_duration_);
   }
 
 };
