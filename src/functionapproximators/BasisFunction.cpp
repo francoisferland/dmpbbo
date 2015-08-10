@@ -170,11 +170,13 @@ void Gaussian::activations(const Eigen::MatrixXd& centers, const Eigen::MatrixXd
     MatrixXd sum_kernel_activations = kernel_activations.rowwise().sum(); // n_samples x 1
   
     // Add small number to avoid division by zero. Not full-proof...  
-    if ((sum_kernel_activations.array()==0).any())
+    if ((sum_kernel_activations.array()==0).any()) {
       sum_kernel_activations.array() += sum_kernel_activations.maxCoeff()/100000.0;
-    
-    // Normalize for each row (each value in input_vector)  
-    kernel_activations = kernel_activations.array()/sum_kernel_activations.replicate(1,n_basis_functions).array();
+      // TEMP: all activations are zeros, trying to figure out why.
+    } else {
+        // Normalize for each row (each value in input_vector)  
+        kernel_activations = kernel_activations.array()/sum_kernel_activations.replicate(1,n_basis_functions).array();
+    }
   }
 
 }
